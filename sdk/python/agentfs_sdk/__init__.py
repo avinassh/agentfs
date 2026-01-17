@@ -3,7 +3,7 @@
 A filesystem and key-value store for AI agents, powered by SQLite.
 """
 
-from .agentfs import AgentFS, AgentFSOptions
+from .agentfs import AgentFS, AgentFSOptions, EncryptionConfig
 from .errors import ErrnoException, FsErrorCode, FsSyscall
 from .filesystem import S_IFDIR, S_IFLNK, S_IFMT, S_IFREG, Filesystem, Stats
 from .kvstore import KvStore
@@ -14,6 +14,7 @@ __version__ = "0.6.0-pre.1"
 __all__ = [
     "AgentFS",
     "AgentFSOptions",
+    "EncryptionConfig",
     "KvStore",
     "Filesystem",
     "Stats",

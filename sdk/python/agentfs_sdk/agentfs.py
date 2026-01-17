@@ -13,6 +13,19 @@ from .toolcalls import ToolCalls
 
 
 @dataclass
+class EncryptionConfig:
+    """Configuration for local encryption
+
+    Attributes:
+        hex_key: Hex-encoded encryption key
+        cipher: Cipher algorithm (e.g., "aegis256", "aegis128l", "aes256gcm", etc.)
+    """
+
+    hex_key: str
+    cipher: str
+
+
+@dataclass
 class AgentFSOptions:
     """Configuration options for opening an AgentFS instance
 
@@ -23,10 +36,12 @@ class AgentFSOptions:
         path: Explicit path to the database file.
             - If provided: Uses the specified path directly
             - Can be combined with `id`
+        encryption: Encryption configuration for database at rest
     """
 
     id: Optional[str] = None
     path: Optional[str] = None
+    encryption: Optional[EncryptionConfig] = None
 
 
 class AgentFS:
@@ -87,8 +102,18 @@ class AgentFS:
                 os.makedirs(directory, exist_ok=True)
             db_path = f"{directory}/{options.id}.db"
 
-        # Connect to the database to ensure it's created
-        db = await connect(db_path)
+        # Connect to the database with optional encryption
+        if options.encryption:
+            db = await connect(
+                db_path,
+                experimental_encryption=True,
+                encryption={
+                    "cipher": options.encryption.cipher,
+                    "hexkey": options.encryption.hex_key,
+                },
+            )
+        else:
+            db = await connect(db_path)
 
         return await AgentFS.open_with(db)
 

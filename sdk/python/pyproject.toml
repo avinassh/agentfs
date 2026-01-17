@@ -28,7 +28,7 @@ classifiers = [
 ]
 
 dependencies = [
-    "pyturso==0.4.0rc17",
+    "pyturso @ git+https://github.com/avinassh/limbo.git@claude/add-sdk-local-encryption-MjSOj#subdirectory=bindings/python",
 ]
 
 [dependency-groups]

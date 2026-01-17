@@ -4,6 +4,20 @@ import { AgentFS as Filesystem } from './filesystem/index.js';
 import { ToolCalls } from './toolcalls.js';
 
 /**
+ * Configuration for local encryption
+ */
+export interface EncryptionConfig {
+  /**
+   * Hex-encoded encryption key
+   */
+  hexKey: string;
+  /**
+   * Cipher algorithm (e.g., "aegis256", "aegis128l", "aes256gcm", etc.)
+   */
+  cipher: string;
+}
+
+/**
  * Configuration options for opening an AgentFS instance
  */
 export interface AgentFSOptions {
@@ -19,6 +33,10 @@ export interface AgentFSOptions {
    * - Can be combined with `id`
    */
   path?: string;
+  /**
+   * Encryption configuration for database at rest
+   */
+  encryption?: EncryptionConfig;
 }
 
 export class AgentFSCore {

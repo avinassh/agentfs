@@ -16,7 +16,7 @@ export class AgentFS extends AgentFSCore {
     }
 }
 
-export { AgentFSOptions } from './agentfs.js';
+export { AgentFSOptions, EncryptionConfig } from './agentfs.js';
 export { KvStore } from './kvstore.js';
 export { AgentFS as Filesystem } from './filesystem/index.js';
 export type { Stats, DirEntry, FilesystemStats, FileHandle, FileSystem } from './filesystem/index.js';

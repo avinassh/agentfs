@@ -51,7 +51,16 @@ export class AgentFS extends AgentFSCore {
             dbPath = `${dir}/${id}.db`;
         }
 
-        const db = new Database(dbPath);
+        // Create database with optional encryption
+        const db = options.encryption
+            ? new Database(dbPath, {
+                experimentalEncryption: true,
+                encryption: {
+                    cipher: options.encryption.cipher,
+                    hexkey: options.encryption.hexKey,
+                }
+            } as any)
+            : new Database(dbPath);
 
         // Connect to the database to ensure it's created
         await db.connect();
@@ -69,7 +78,7 @@ export class AgentFS extends AgentFSCore {
     }
 }
 
-export { AgentFSOptions } from './agentfs.js';
+export { AgentFSOptions, EncryptionConfig } from './agentfs.js';
 export { KvStore } from './kvstore.js';
 export { AgentFS as Filesystem } from './filesystem/index.js';
 export type { Stats, DirEntry, FilesystemStats, FileHandle, FileSystem } from './filesystem/index.js';
